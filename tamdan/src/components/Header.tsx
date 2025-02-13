@@ -8,8 +8,8 @@ type AsideProps = {
 };
 const Header: React.FC<AsideProps> = ({ show, setShow }) => {
   return (
-    <header className="absolute w-full top-0 px-5 p-2 ">
-      <div className="max-w-5xl mx-auto flex items-center  justify-between ">
+    <header className="absolute w-full top-0 z-10 left-0 right-0 px-5 p-2  bg-neutral-900 ">
+      <div className="max-w-6xl mx-auto flex items-center  justify-between ">
         <div className="w-full flex items-center justify-between">
           {!show && (
             // <button aria-label="btn-back" onClick={() => setShow(true)}>
@@ -27,7 +27,7 @@ const Header: React.FC<AsideProps> = ({ show, setShow }) => {
           )}
         </div>
 
-        <div className="flex  items-center">
+        <div className="flex gap-2 items-center">
           <div>
             <svg
               className=" lg:h-5 lg:size-14 text-white"
@@ -48,7 +48,10 @@ const Header: React.FC<AsideProps> = ({ show, setShow }) => {
             </svg>
           </div>
           <div className="w-full flex items-center gap-3 py-4 ">
-            <div className="  object-cover rounded-full">
+            <span className="hidden lg:flex justify-end text-slate-100 font-md text-sm">
+              Koemnak
+            </span>
+            <div className="  object-cover rounded-full border border-violet-200">
               <Avatar
                 img={
                   profile
@@ -60,9 +63,6 @@ const Header: React.FC<AsideProps> = ({ show, setShow }) => {
                 rounded
               />
             </div>
-            <span className="hidden lg:flex text-slate-100 font-semibold text-sm">
-              Koemnak Heat
-            </span>
           </div>
         </div>
       </div>

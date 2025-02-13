@@ -144,7 +144,7 @@ const Column = () => {
   };
 
   return (
-    <div className="rounded-xl lg:mx-0">
+    <div className="max-w-6xl mx-auto lg:pt-24 pt-12  rounded-xl ">
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -157,7 +157,7 @@ const Column = () => {
               opacity: 1,
               transition: { duration: 1 },
             }}
-            className="flex gap-4 "
+            className="flex flex-col justify-center lg:mx-0 mx-4 lg:flex-row gap-4 "
           >
             {[
               { id: 'todo', colTitle: 'To Do', status: 'todo', icon: '✅' },
