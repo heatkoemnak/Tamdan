@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import targetImage from '../assets/target.png';
+import { Button } from 'flowbite-react';
+import { AppContext } from '../context/AppContext';
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -8,6 +10,7 @@ const fadeIn = {
 };
 
 const Home: React.FC = () => {
+  const { user } = useContext(AppContext);
   return (
     <motion.div
       initial="hidden"
@@ -15,29 +18,32 @@ const Home: React.FC = () => {
       exit="hidden"
       className="mx-4"
     >
-      <motion.div variants={fadeIn} className="rounded-3xl max-w-6xl mx-auto mt-28  ">
+      <motion.div
+        variants={fadeIn}
+        className="rounded-3xl max-w-6xl mx-auto mt-36  "
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
           <motion.div variants={fadeIn} className="order-2 md:order-1">
             <div className="grid grid-cols-2 gap-4 md:gap-6">
               <motion.div variants={fadeIn} className="col-span-2">
                 <div className="flex justify-between items-center p-4 bg-slate-100 rounded-xl">
-                  <div className='mx-2'>
+                  <div className="mx-2">
                     <div className="font-bold text-xl text-slate-900 leading-none">
                       <span>Good day,</span>
                       <br></br>
                       <div className="pt-1">
-                        <span className="text-2xl">Koemnak Heat</span>
+                        <span className="text-2xl">
+                          {user ? user.name : 'Welcome to Tamdan App'}
+                        </span>
                       </div>
                     </div>
                     <div className="mt-5">
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
+                      <Button
                         type="button"
-                        className="inline-flex items-center justify-center py-2 px-3 rounded-lg bg-yellow-300 text-gray-800 hover:text-slate-900 text-sm font-semibold transition"
+                        className="inline-flex items-center justify-center px-3 rounded-lg  hover:text-slate-900 text-sm font-semibold transition"
                       >
                         Start tracking
-                      </motion.button>
+                      </Button>
                     </div>
                   </div>
                   <motion.img

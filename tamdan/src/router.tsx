@@ -3,6 +3,9 @@ import Home from './components/Home';
 import { Tasks } from './components/Tasks';
 import App from './App';
 import NotFound from './components/NotFound';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import ProtectedRoute from './components/protected/ProtectedRoute';
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +19,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/tasks',
-        element: <Tasks />,
+        element: (
+          <ProtectedRoute>
+            <Tasks />
+          </ProtectedRoute>
+        ),
       },
 
       {
@@ -24,5 +31,13 @@ export const router = createBrowserRouter([
         element: <NotFound />,
       },
     ],
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]);

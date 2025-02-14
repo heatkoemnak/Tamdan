@@ -1,18 +1,32 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../logo.css';
 import arrowBack from '../assets/arrow1.png';
-import { useEffect, useRef } from 'react';
-type AsideProps = {
-  show: boolean;
-  setShow: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { useContext, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { AppContext } from '../context/AppContext';
+import { AsideProps } from '../types';
+
 type MenuItem = {
   to: string;
   label: string;
   icon: string;
 };
-const Aside = ({ show, setShow }: AsideProps) => {
+const Aside = () => {
+  const { setUser, show, setShow } = useContext(AppContext) as AsideProps;
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/logout');
+      if (response.status === 200) {
+        setUser(null);
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const icons: Record<MenuItem['icon'], JSX.Element> = {
     home: (
       <svg className="w-6 h-6 mr-4" fill="currentColor" viewBox="0 0 24 24">
@@ -82,13 +96,13 @@ const Aside = ({ show, setShow }: AsideProps) => {
             opacity: 0,
           }}
           ref={menuRef}
-          className="bg-black z-50 h-screen"
+          className=" z-50 h-screen"
         >
-          <aside className="border-r  bg-neutral-800 flex flex-col absolute lg:static left-0  top-0 z-50  border-neutral-800 h-screen lg:w-64 w-[300px] ">
+          <aside className="border-r  bg-slate-800 flex flex-col absolute lg:static left-0  top-0 z-50  border-neutral-800 h-screen lg:w-64 w-[300px] ">
             <div className="grow">
               <div className="flex items-center justify-between px-4 py-6 text-center border-b">
                 <div>
-                  <h1 className="text-xl font-bold leading-6">
+                  <h1 className=" text-xl font-bold leading-6">
                     {/* <span className="text-yellow-300">Tamdan </span> */}
                     <h1 id="tamdan" data-text="Tandan">
                       Tamdan
@@ -101,27 +115,28 @@ const Aside = ({ show, setShow }: AsideProps) => {
               </div>
               <div className="px-4 pt-2">
                 {menuItems.map((item) => (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    className={`flex items-center rounded-xl font-bold text-sm ${
-                      location.pathname === item.to
-                        ? 'bg-yellow-400 text-slate-900'
-                        : 'text-slate-50'
-                    } py-3 px-4`}
-                  >
-                    {icons[item.icon]}
-                    {item.label}
-                  </Link>
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      className={`flex items-center rounded-xl font-bold text-sm ${
+                        location.pathname === item.to
+                          ? 'bg-cyan-600 text-slate-50'
+                          : 'text-slate-50'
+                      } py-3 px-4`}
+                    >
+                      {icons[item.icon]}
+
+                      {item.label}
+                    </Link>
                 ))}
               </div>
             </div>
-            <div className="p-4 mx-2 flex items-center">
-              <button
-                aria-label="Logout"
-                type="button"
-                className="inline-flex items-center justify-center rounded-md  text-gray-300 hover:text-white text-sm font-semibold transition"
-              >
+            <button
+              onClick={handleLogout}
+              aria-label="btn"
+              className="p-4 mx-2 flex items-center"
+            >
+              <div className="inline-flex items-center justify-center rounded-md  text-gray-300 hover:text-white text-sm font-semibold transition">
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
                   aria-hidden="true"
@@ -139,11 +154,11 @@ const Aside = ({ show, setShow }: AsideProps) => {
                     d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
                   />
                 </svg>
-              </button>
+              </div>
               <span className="font-bold text-sm text-slate-100 ml-2">
                 Logout
               </span>
-            </div>
+            </button>
           </aside>
         </motion.div>
       )}

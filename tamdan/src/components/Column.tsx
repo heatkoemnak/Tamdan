@@ -188,15 +188,15 @@ const Column = () => {
                           opacity: 1,
                           transition: { duration: 1 },
                         }}
-                        exit={{ opacity: 0, scale: 0 }}
-                        className=" bg-slate-200 group-hover:shadow rounded-md group mt-1 border border-slate-700 "
+                        exit={{ opacity: 0 }}
+                        className=" bg-cyan-700/20 group-hover:shadow rounded-md group mt-1 border border-slate-700 "
                       >
                         <Task key={task.id} task={task} />
 
                         <div className=" relative flex group-hover:rounded-lg gap-1 px-2 items-center justify-between pt-1 pb-1 ">
                           <div className="flex items-center gap-1 mx-2">
                             <svg
-                              className="w-4 h-4 text-slate-500 "
+                              className="w-4 h-4 text-cyan-500 "
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
@@ -212,7 +212,7 @@ const Column = () => {
                                 d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                               />
                             </svg>
-                            <p className="text-xs text-slate-500 text-center">
+                            <p className="text-xs text-cyan-500 text-center">
                               {timeAgo({ timestamp: task.time })}
                             </p>
                           </div>
@@ -222,10 +222,10 @@ const Column = () => {
                               aria-label="btn"
                               type="button"
                               onClick={() => openForm(id, task.id)}
-                              className="flex items-center bg-violet-400/20 group-hover:bg-violet-700/30 gap-1  rounded p-1"
+                              className="flex items-center bg-cyan-400/20 group-hover:bg-cyan-700 gap-1  rounded p-1"
                             >
                               <svg
-                                className="w-3 h-3 text-gray-800 group-hover:text-blue-900 "
+                                className="w-3 h-3 group-hover:text-gray-50 text-blue-400/20 "
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
@@ -282,7 +282,7 @@ const Column = () => {
                       <textarea
                         id="title"
                         value={title}
-                        className="shadow bg-violet-400/20 border border-violet-400 rounded-lg w-full p-3 mt-1 text-neutral-50 placeholder-violet-300"
+                        className="shadow bg-cyan-900/60 border border-cyan-400 rounded-lg w-full p-3 mt-1 text-slate-50 placeholder-cyan-300"
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Enter task title"
                         required
@@ -306,7 +306,7 @@ const Column = () => {
                             Update
                           </Button>
                         ) : (
-                          <Button size="xs" color="light" type="submit">
+                          <Button size="xs" type="submit">
                             Add
                           </Button>
                         )}
@@ -322,7 +322,7 @@ const Column = () => {
                       className="rounded-md group mx-2 relative cursor-pointer mt-1 "
                     >
                       <button
-                        className="flex items-center gap-2 py-1 text-sm group-hover:text-violet-400 font-semibold text-violet-400 "
+                        className="flex items-center gap-2 py-1 text-sm group-hover:text-cyan-700 font-semibold text-cyan-600 "
                         aria-label="Add Task"
                       >
                         <svg
@@ -340,7 +340,7 @@ const Column = () => {
                           />
                         </svg>
 
-                        <span className="text-violet-400">Add task</span>
+                        <span className="text-cyan-600 group-hover:text-cyan-700">Add task</span>
                       </button>
                     </motion.div>
                   )}

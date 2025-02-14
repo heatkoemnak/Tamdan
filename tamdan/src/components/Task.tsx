@@ -26,16 +26,15 @@ const Task = ({ task }: TaskProps) => {
           : undefined,
         opacity: transform ? 0.5 : 1,
       }}
-      className='bg-slate-50 rounded-lg'
+      className="bg-cyan-700/5 rounded-md"
     >
       <motion.div
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 1 }}
-    
-        className=" group min-w-80  rounded-lg  cursor-pointer  "
+        className=" group min-w-80    cursor-pointer  "
       >
         <div
-          className={`flex justify-between rounded-lg  text-slate-900   p-4  transition ease-linear duration-150 `}
+          className={`flex justify-between text-slate-50   p-4  transition ease-linear duration-150 `}
         >
           <div className="flex gap-1  ">
             {status === 'done' && (
@@ -57,7 +56,7 @@ const Task = ({ task }: TaskProps) => {
               </div>
             )}
 
-            <div className="group-hover:text-slate-950 font-md">
+            <div className="group-hover:text-slate-50 font-md">
               {/* {truncateText(title, 25)} */}
               {title}
             </div>
