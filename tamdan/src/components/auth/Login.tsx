@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { FormDataType, AppContextType } from '../../types';
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.PROD;
 
 const Login = () => {
   const { setUser } = useContext(AppContext) as AppContextType;
