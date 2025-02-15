@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { FormDataType, AppContextType } from '../../types';
-
+axios.defaults.withCredentials = true;
 const Login = () => {
   const { setUser } = useContext(AppContext) as AppContextType;
 
@@ -28,8 +28,6 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    axios.defaults.withCredentials = true;
-
     if (formData.password === '' && formData.email === '') {
       alert('Please enter email and password!');
       return;
@@ -43,18 +41,13 @@ const Login = () => {
           password: formData.password,
         }
       );
-      console.log(response);
 
       if (response.status === 200) {
         const { data } = await axios.get(
           `https://tamdan-server.vercel.app/api/user`
         );
-        if (data) {
-          setUser(data.user);
-        }
+        setUser(data.user);
         navigate('/');
-      } else {
-        alert('Invalid credentials');
       }
     } catch (error) {
       console.error(error);
