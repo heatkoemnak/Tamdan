@@ -22,7 +22,7 @@ app.use('/api/register', register);
 app.use('/api/login', login);
 app.use('/api/user', authenticateUser, (req, res) =>
   res.status(200).json({
-    message: 'User logged out successfully',
+    message: 'User authenticated successfully',
     success: true,
     user: req.user,
   })
