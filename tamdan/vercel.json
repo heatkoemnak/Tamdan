@@ -1,17 +1,3 @@
 {
-  "version": 2,
-  "name": "tracker-task",
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "./index.html",
-      "status": 200
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
