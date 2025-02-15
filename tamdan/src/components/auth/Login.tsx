@@ -46,7 +46,9 @@ const Login = () => {
       console.log(response);
 
       if (response.status === 200) {
-        const { data } = await axios.get(`https://tamdan-server.vercel.app/api/user`);
+        const { data } = await axios.get(
+          `https://tamdan-server.vercel.app/api/user`
+        );
         if (data) {
           setUser(data.user);
         }
@@ -55,7 +57,8 @@ const Login = () => {
         alert('Invalid credentials');
       }
     } catch (error) {
-      console.log('Registration Error:', error);
+      console.error(error);
+      console.log('Login Error:', error);
     }
   };
 
