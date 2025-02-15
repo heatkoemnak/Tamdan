@@ -25,10 +25,10 @@ export const register = async (req, res) => {
       expiresIn: '7d',
     });
     res.cookie('token', token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true, // Prevents client-side access
+      secure: process.env.NODE_ENV === 'production', // HTTPS in production
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cross-site cookie support
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
     res
       .status(201)
@@ -37,40 +37,53 @@ export const register = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 export const login = async (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
-  }
-
   try {
+    const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    // Find user by email
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'invalid credentials' });
+      return res.status(401).json({ message: 'Invalid credentials' }); // 401 for unauthorized
     }
+
+    // Validate password
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(400).json({ message: 'invalid credentials' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
+
+    // Generate JWT token
     const token = jwt.sign(
       { userId: user._id, name: user.name, email: user.email },
       process.env.JWT_SECRET,
-      {
-        expiresIn: '7d',
-      }
+      { expiresIn: '7d' }
     );
+
+    // Set cookie securely
     res.cookie('token', token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true, // Prevents client-side access
+      secure: process.env.NODE_ENV === 'production', // HTTPS in production
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cross-site cookie support
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
-    res
-      .status(200)
-      .json({ message: 'User logged in successfully', success: true });
+
+    // Send response
+    res.status(200).json({
+      message: 'User logged in successfully',
+      success: true,
+      token, // Optional: Send token in response (for mobile clients)
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Login Error:', error);
+    res.status(500).json({ message: 'Internal server error' }); // More generic error message
   }
 };
 
@@ -80,10 +93,10 @@ export const logout = async (req, res) => {
   }
   try {
     res.clearCookie('token', {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true, // Prevents client-side access
+      secure: process.env.NODE_ENV === 'production', // HTTPS in production
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cross-site cookie support
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
     res
       .status(200)
