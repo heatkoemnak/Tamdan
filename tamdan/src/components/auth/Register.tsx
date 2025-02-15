@@ -5,6 +5,17 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+interface AxiosError {
+  response?: {
+    data: {
+      message: string;
+    };
+    status: number;
+    statusText: string;
+  };
+  request: XMLHttpRequest;
+  message: string;
+}
 type UserData = {
   name: string;
   email: string;
@@ -23,6 +34,8 @@ const Register = () => {
     agree: false,
   });
 
+  const [error, setError] = useState<string | null>(null);
+
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type, checked } = e.target;
@@ -37,29 +50,43 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (formData.password !== formData.repeatPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-
     if (!formData.agree) {
       alert('You must agree to the terms!');
       return;
     }
 
     try {
-      const response = await axios.post('https://tamdan-server.vercel.app/api/register', {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        agree: formData.agree,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/register`,
+        {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          repeatPassword: formData.repeatPassword,
+          agree: formData.agree,
+        }
+      );
 
       console.log('Registration Success:', response.data);
       alert('Account created successfully!');
       navigate('/login');
     } catch (error) {
       console.log('Registration Error:', error);
+      let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (typeof error === 'object' && error !== null) {
+        const axiosError = error as AxiosError;
+
+        if (axiosError.response) {
+          errorMessage =
+            axiosError.response.data.message || axiosError.response.statusText;
+        } else if (axiosError.request) {
+          errorMessage =
+            'No response from the server. Please check your internet connection.';
+        } else {
+          errorMessage = axiosError.message;
+        }
+      }
+      setError(errorMessage);
     }
   };
 
@@ -137,6 +164,7 @@ const Register = () => {
             onChange={handleChange}
           />
         </div>
+        <span className="text-red-600 text-xs">{error}</span>
         <div className="flex items-center gap-2">
           <Checkbox
             id="agree"

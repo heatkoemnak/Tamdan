@@ -63,14 +63,14 @@ const Home: React.FC = () => {
                 <div className="grid w-full grid-cols-2 gap-4 md:gap-6">
                   <motion.div
                     variants={fadeIn}
-                    className="p-4 border bg-slate-800 rounded-xl text-gray-100"
+                    className="p-4 border border-cyan-500 bg-slate-800 rounded-xl text-gray-100"
                   >
                     <div className="font-bold text-2xl leading-none">20</div>
                     <div className="mt-2">Tasks finished</div>
                   </motion.div>
                   <motion.div
                     variants={fadeIn}
-                    className="p-4 border bg-slate-800 rounded-xl text-gray-100"
+                    className="p-4 border border-cyan-500 bg-slate-800 rounded-xl text-gray-100"
                   >
                     <div className="font-bold text-2xl leading-none">5,5</div>
                     <div className="mt-2">Tracked hours</div>

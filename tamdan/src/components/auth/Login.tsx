@@ -5,9 +5,22 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { FormDataType, AppContextType } from '../../types';
+
+interface AxiosError {
+  response?: {
+    data: {
+      message: string;
+    };
+    status: number;
+    statusText: string;
+  };
+  request: XMLHttpRequest;
+  message: string;
+}
+
 const Login = () => {
   const { setUser } = useContext(AppContext) as AppContextType;
-
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormDataType>({
     email: '',
@@ -48,9 +61,23 @@ const Login = () => {
         setUser(data.user);
         navigate('/');
       }
-    } catch (error) {
-      console.error(error);
-      console.log('Login Error:', error);
+    } catch (error: unknown) {
+      console.error('Login Error:', error);
+      let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (typeof error === 'object' && error !== null) {
+        const axiosError = error as AxiosError;
+
+        if (axiosError.response) {
+          errorMessage =
+            axiosError.response.data.message || axiosError.response.statusText;
+        } else if (axiosError.request) {
+          errorMessage =
+            'No response from the server. Please check your internet connection.';
+        } else {
+          errorMessage = axiosError.message;
+        }
+      }
+      setError(errorMessage);
     }
   };
 
@@ -100,6 +127,7 @@ const Login = () => {
             value={formData.password}
             onChange={handleChange}
           />
+          <span className="text-red-600 text-xs">{error}</span>
         </div>
         <Button type="submit">Login</Button>
         <p className="text-center  text-slate-500 text-lg">

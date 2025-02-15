@@ -1,7 +1,7 @@
 import userModel from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const register = async (req, res) => {
   const { name, email, password, agree } = req.body;
   if (!name || !email || !password || !agree) {
@@ -12,6 +12,9 @@ export const register = async (req, res) => {
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
+    }
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = await userModel.create({
@@ -48,16 +51,29 @@ export const login = async (req, res, next) => {
         .json({ message: 'Email and password are required' });
     }
 
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
     // Find user by email
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' }); // 401 for unauthorized
+      console.warn(`Failed login attempt for email: ${email}`);
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    // Check if user account is blocked
+    if (user.status === 'blocked') {
+      return res.status(403).json({ message: 'Your account has been blocked' });
+    }
     // Validate password
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      console.warn(`Failed login attempt for email: ${email}`);
+      return res.status(401).json({
+        message: 'Invalid credentials',
+        resetPasswordLink: '/reset-password',
+      });
     }
 
     // Generate JWT token
@@ -79,11 +95,12 @@ export const login = async (req, res, next) => {
     res.status(200).json({
       message: 'User logged in successfully',
       success: true,
-      token, // Optional: Send token in response (for mobile clients)
+      token,
+      expiresIn: Date.now() + 7 * 24 * 60 * 60 * 1000, // Token expiry time
     });
   } catch (error) {
     console.error('Login Error:', error);
-    res.status(500).json({ message: 'Internal server error' }); // More generic error message
+    next(error); // Pass the error to the centralized error handler
   }
 };
 
@@ -109,7 +126,7 @@ export const logout = async (req, res) => {
 // **🔹 Middleware to Authenticate User via Cookie**
 export const authenticateUser = async (req, res, next) => {
   const token = req.cookies?.token;
-  
+
   if (!token) return res.status(403).json({ message: 'Not authenticated' });
   console.log(token);
 

@@ -9,6 +9,7 @@ import {
   logout,
   authenticateUser,
 } from './controller/authController.js';
+import { loginLimiter } from './middleware/LoginLimiter.js';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,7 +20,7 @@ app.use(cookieParser());
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
 app.use('/api/register', register);
-app.use('/api/login', login);
+app.use('/api/login', loginLimiter, login);
 app.use('/api/user', authenticateUser, (req, res) =>
   res.status(200).json({
     message: 'User authenticated successfully',
