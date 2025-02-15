@@ -5,6 +5,7 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { FormDataType, AppContextType } from '../../types';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const { setUser } = useContext(AppContext) as AppContextType;
@@ -36,14 +37,14 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('https://tamdan-server.vercel.app/api/login', {
+      const response = await axios.post(`${apiUrl}/api/login`, {
         email: formData.email,
         password: formData.password,
       });
       console.log(response);
 
       if (response.status === 200) {
-        const { data } = await axios.get('https://tamdan-server.vercel.app/api/user');
+        const { data } = await axios.get(`${apiUrl}/api/user`);
         if (data) {
           setUser(data.user);
         }
