@@ -5,7 +5,6 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { FormDataType, AppContextType } from '../../types';
-const apiUrl = import.meta.env.PROD;
 
 const Login = () => {
   const { setUser } = useContext(AppContext) as AppContextType;
@@ -47,7 +46,7 @@ const Login = () => {
       console.log(response);
 
       if (response.status === 200) {
-        const { data } = await axios.get(`${apiUrl}/api/user`);
+        const { data } = await axios.get(`https://tamdan-server.vercel.app/api/user`);
         if (data) {
           setUser(data.user);
         }
