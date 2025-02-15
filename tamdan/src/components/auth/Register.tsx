@@ -62,7 +62,6 @@ const Register = () => {
           name: formData.name,
           email: formData.email,
           password: formData.password,
-          repeatPassword: formData.repeatPassword,
           agree: formData.agree,
         }
       );

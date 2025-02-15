@@ -9,7 +9,7 @@ import {
   logout,
   authenticateUser,
 } from './controller/authController.js';
-import { loginLimiter } from './middleware/LoginLimiter.js';
+import { loginLimiter } from './middleware/loginLimiter.js';
 
 const app = express();
 const port = process.env.PORT || 5000;
