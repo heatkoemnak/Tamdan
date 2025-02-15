@@ -37,10 +37,13 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/api/login`, {
-        email: formData.email,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        `https://tamdan-server.vercel.app/api/login`,
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
       console.log(response);
 
       if (response.status === 200) {
