@@ -33,6 +33,6 @@ app.get('/', (req, res) => {
   res.send('Hello from server');
 });
 
-app.listen(port, () => {
+app.listen( port || 5000, () => {
   console.log(`Server is running on port ${port}`);
 });
