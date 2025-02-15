@@ -17,7 +17,7 @@ const Aside = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/logout');
+      const response = await axios.post('https://tamdan-server.vercel.app/api/logout');
       if (response.status === 200) {
         setUser(null);
         navigate('/login');
