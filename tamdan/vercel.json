@@ -1,8 +1,17 @@
 {
-  "rewrites": [
+  "version": 2,
+  "name": "tracker-task",
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "./index.html"
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
     }
   ]
 }

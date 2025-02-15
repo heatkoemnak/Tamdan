@@ -9,7 +9,6 @@ lerna-debug.log*
 .env
 .env.production
 .env.development
-vercel.json
 node_modules
 dist
 dist-ssr
