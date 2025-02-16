@@ -17,13 +17,11 @@ app.use('/api/auth', authRouter);
 
 app.get('/', async (req, res, next) => {
   try {
-    throw new Error('Route not found');
+    res.status(200).json({ message: 'Server is running' });
   } catch (error) {
     next(error);
   }
 });
-
-app.use(errorHandler);
 
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);

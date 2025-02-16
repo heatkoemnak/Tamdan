@@ -4,18 +4,17 @@ import {
   register,
   login,
   logout,
-  verifyToken,
+  authenticateUser,
 } from '../controller/authController.js';
-import { errorHandler } from '../middleware/errorHandler.js';
 import { loginLimiter } from '../middleware/loginLimiter.js';
 import userModel from '../models/userModel.js';
 
 const authRouter = Router();
-authRouter.post('/register', errorHandler, register);
-authRouter.post('/login', loginLimiter, errorHandler, login);
-authRouter.post('/logout', errorHandler, logout);
+authRouter.post('/register', register);
+authRouter.post('/login', loginLimiter, login);
+authRouter.post('/logout', logout);
 // authRouter.get('/user', errorHandler, authenticateUser);
-authRouter.get('/user', verifyToken, async (req, res) => {
+authRouter.get('/user', authenticateUser, async (req, res) => {
   try {
     const user = await userModel.findById(req.user.userId).select('-password'); // Exclude password
     if (!user) {
