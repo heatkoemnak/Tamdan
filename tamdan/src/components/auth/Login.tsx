@@ -40,14 +40,9 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios.defaults.withCredentials = true;
-    if (formData.password === '' && formData.email === '') {
-      alert('Please enter email and password!');
-      return;
-    }
-
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/login`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
         {
           email: formData.email,
           password: formData.password,
@@ -56,7 +51,7 @@ const Login = () => {
 
       if (response.status === 200) {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/user`
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/user`
         );
         setUser(data.user);
         navigate('/');
