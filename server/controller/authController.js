@@ -64,7 +64,7 @@ export const register = async (req, res, next) => {
 };
 
 // Login an existing user
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
   // Validate input
@@ -115,7 +115,6 @@ export const login = async (req, res, next) => {
     });
   } catch (error) {
     console.error('Login Error:', error);
-    next(error); // Pass the error to the centralized error handler
   }
 };
 
