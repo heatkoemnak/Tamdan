@@ -10,8 +10,6 @@ const setCookie = (res, token) => {
     httpOnly: true,
     secure: isProduction, // ✅ HTTPS only in production
     sameSite: isProduction ? 'none' : 'lax', // ✅ Required for cross-site cookies
-    domain: isProduction ? '.vercel.app' : undefined, // ✅ Ensure it works across subdomains
-    path: '/', // ✅ Allows access across entire site
     maxAge: 7 * 24 * 60 * 60 * 1000, // ✅ 7 days
   });
 };

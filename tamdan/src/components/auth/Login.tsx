@@ -40,13 +40,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await Api.post(`/auth/login`, {
+      const response = await Api.post(`/api/auth/login`, {
         email: formData.email,
         password: formData.password,
       });
 
       if (response.status === 200) {
-        const { data } = await Api.get(`/auth/user`);
+        const { data } = await Api.get(`/api/auth/user`);
         setUser(data.user);
         navigate('/');
       }

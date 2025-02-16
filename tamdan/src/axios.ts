@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const Api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`, // ✅ Backend production URL
+  baseURL: `https://tamdan-server.vercel.app`, // ✅ Backend production URL
   withCredentials: true, // ✅ Ensures cookies are sent and received
 });
 
