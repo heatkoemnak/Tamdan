@@ -1,11 +1,10 @@
 import { Button, Label, TextInput } from 'flowbite-react';
 import arrowBack from '../../assets/arrow1.png';
-import axios from 'axios';
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { FormDataType, AppContextType } from '../../types';
-
+import Api from '../../axios';
 interface AxiosError {
   response?: {
     data: {
@@ -39,20 +38,15 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.defaults.withCredentials = true;
+
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+      const response = await Api.post(`/auth/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
       if (response.status === 200) {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/auth/user`
-        );
+        const { data } = await Api.get(`/auth/user`);
         setUser(data.user);
         navigate('/');
       }
