@@ -3,13 +3,12 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const secure = process.env.NODE_ENV === 'development';
-console.log(secure);
+const isProduction = process.env.NODE_ENV === 'production';
 const setCookie = async (res, token) => {
   res.cookie('token', token, {
     httpOnly: true,
-    sameSite: secure ? 'none' : 'lax',
-    secure: secure,
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction ? true : false,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };
