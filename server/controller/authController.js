@@ -3,15 +3,16 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const isProduction = process.env.NODE_ENV === 'production';
 
 const setCookie = async (res, token) => {
   res.cookie('token', token, {
     httpOnly: true, // ✅ Prevents XSS attacks
-    sameSite: isProduction ? 'none' : 'lax', // ✅ Cross-site cookies for production
-    secure: isProduction, // ✅ HTTPS only in production
-    domain: isProduction ? 'tamdan-server.vercel.app' : undefined, // ✅ Set domain for production
-    path: '/', // ✅ Make cookie accessible across the app
+    sameSite: 'none', // ✅ Cross-site cookies for production
+    secure: true, // ✅ HTTPS only in production
+    domain:
+      process.env.NODE_ENV === 'production'
+        ? 'tamdan-server.vercel.app'
+        : undefined, // ✅ Set domain for production
     maxAge: 7 * 24 * 60 * 60 * 1000, // ✅ 7 days
   });
 };

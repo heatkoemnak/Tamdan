@@ -1,10 +1,9 @@
 import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import arrowBack from '../../assets/arrow1.png';
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-axios.defaults.withCredentials = true;
+import Api from '../../axios';
 interface AxiosError {
   response?: {
     data: {
@@ -56,15 +55,12 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth/register`,
-        {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          agree: formData.agree,
-        }
-      );
+      const response = await Api.post(`/auth/register`, {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        agree: formData.agree,
+      });
 
       console.log('Registration Success:', response.data);
       alert('Account created successfully!');
