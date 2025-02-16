@@ -3,14 +3,11 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const isProduction = process.env.NODE_ENV === 'production';
 
 // Helper function to set cookies
 const setCookie = (res, token) => {
   res.cookie('token', token, {
     httpOnly: true, // Prevents client-side access
-    secure: isProduction ? true : false, // HTTPS in production
-    sameSite: isProduction ? 'none' : 'strict', // Cross-site cookie support
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 };
