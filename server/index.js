@@ -4,7 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import connectDB from './utils/mongodb.js';
 import { errorHandler } from './middleware/errorHandler.js';
-import authRouter from './routes/auth.route.js';
+import authRouter from './routes/authRoute.js';
 
 const app = express();
 const port = process.env.PORT || 5000;
