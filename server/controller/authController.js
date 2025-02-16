@@ -7,7 +7,9 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Helper function to set cookies
 const setCookie = (res, token) => {
   res.cookie('token', token, {
-    httpOnly: true, // Prevents client-side access
+    httpOnly: true, // Prevent client-side access
+    secure: process.env.NODE_ENV === 'production', // HTTPS in production
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Cross-site cookies
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 };
