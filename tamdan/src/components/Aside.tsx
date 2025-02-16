@@ -17,7 +17,9 @@ const Aside = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      const response = await axios.post('https://tamdan-server.vercel.app/api/logout');
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/logout`
+      );
       if (response.status === 200) {
         setUser(null);
         navigate('/login');
@@ -115,19 +117,19 @@ const Aside = () => {
               </div>
               <div className="px-4 pt-2">
                 {menuItems.map((item) => (
-                    <Link
-                      key={item.to}
-                      to={item.to}
-                      className={`flex items-center rounded-xl font-bold text-sm ${
-                        location.pathname === item.to
-                          ? 'bg-cyan-600 text-slate-50'
-                          : 'text-slate-50'
-                      } py-3 px-4`}
-                    >
-                      {icons[item.icon]}
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`flex items-center rounded-xl font-bold text-sm ${
+                      location.pathname === item.to
+                        ? 'bg-cyan-600 text-slate-50'
+                        : 'text-slate-50'
+                    } py-3 px-4`}
+                  >
+                    {icons[item.icon]}
 
-                      {item.label}
-                    </Link>
+                    {item.label}
+                  </Link>
                 ))}
               </div>
             </div>
