@@ -17,11 +17,11 @@ app.use(cookieParser());
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 // app.use('/api/auth', authRouter);
 app.post('/api/auth/login', loginLimiter, login);
-app.get('/', async (req, res, next) => {
+app.get('/', async (req, res) => {
   try {
     res.status(200).json({ message: 'Server is running' });
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 });
 
