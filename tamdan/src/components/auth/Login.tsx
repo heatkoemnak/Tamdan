@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { FormDataType, AppContextType } from '../../types';
-import Api from '../../axios';
+import axios from 'axios';
 interface AxiosError {
   response?: {
     data: {
@@ -40,13 +40,18 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await Api.post(`/api/auth/login`, {
-        email: formData.email,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        `https://tamdan-server.vercel.app/api/auth/login`,
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
       if (response.status === 200) {
-        const { data } = await Api.get(`/api/auth/user`);
+        const { data } = await axios.get(
+          `https://tamdan-server.vercel.app/api/auth/user`
+        );
         setUser(data.user);
         navigate('/');
       }

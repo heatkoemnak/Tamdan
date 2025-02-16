@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import arrowBack from '../../assets/arrow1.png';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Api from '../../axios';
+import axios from 'axios';
 interface AxiosError {
   response?: {
     data: {
@@ -55,7 +55,7 @@ const Register = () => {
     }
 
     try {
-      const response = await Api.post(`/api/auth/register`, {
+      const response = await axios.post(`https://tamdan-server.vercel.app/api/auth/register`, {
         name: formData.name,
         email: formData.email,
         password: formData.password,
