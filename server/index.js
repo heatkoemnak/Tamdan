@@ -15,8 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
-// app.use('/api/auth', authRouter);
-app.post('/api/auth/login', loginLimiter, login);
+app.use('/api/auth', authRouter);
 app.get('/', async (req, res) => {
   try {
     res.status(200).json({ message: 'Server is running' });

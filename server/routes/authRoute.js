@@ -11,7 +11,7 @@ import userModel from '../models/userModel.js';
 
 const authRouter = Router();
 authRouter.post('/register', register);
-// authRouter.post('/login', loginLimiter, login);
+authRouter.post('/login', loginLimiter, login);
 authRouter.post('/logout', logout);
 // authRouter.get('/user', errorHandler, authenticateUser);
 authRouter.get('/user', authenticateUser, async (req, res) => {
